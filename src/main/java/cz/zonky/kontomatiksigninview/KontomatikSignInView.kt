@@ -1,4 +1,4 @@
-package cz.zonky.screens.borrower.documents.kontomatik.signin
+package cz.zonky.kontomatiksigninview
 
 import android.content.Context
 import android.webkit.JavascriptInterface

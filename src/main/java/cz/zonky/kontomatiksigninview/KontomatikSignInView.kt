@@ -1,9 +1,10 @@
 package cz.zonky.kontomatiksigninview
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
-import org.jetbrains.anko.runOnUiThread
 import java.io.File
 
 /**
@@ -217,51 +218,55 @@ open class KontomatikSignInView(context: Context) : WebView(context) {
 
         @JavascriptInterface
         fun onSuccess(target: String, sessionId: String, sessionIdSignature: String, optionsJson: String) {
-            context.runOnUiThread {
+            context.runOnUi {
                 onSuccessEvent(target, sessionId, sessionIdSignature, optionsJson)
             }
         }
 
         @JavascriptInterface
         fun onError(exception: String, optionsJson: String) {
-            context.runOnUiThread {
+            context.runOnUi {
                 onErrorEvent(exception, optionsJson, USER_CAUSED_EXCEPTIONS.contains(exception))
             }
         }
 
         @JavascriptInterface
         fun onUnsupportedTarget(target: String, country: String, address: String) {
-            context.runOnUiThread {
+            context.runOnUi {
                 onUnsupportedTargetEvent(target, country, address)
             }
         }
 
         @JavascriptInterface
         fun onInitialized() {
-            context.runOnUiThread {
+            context.runOnUi {
                 onInitializedEvent()
             }
         }
 
         @JavascriptInterface
         fun onStarted() {
-            context.runOnUiThread {
+            context.runOnUi {
                 onStartedEvent()
             }
         }
 
         @JavascriptInterface
         fun onTargetSelected(name: String, officialName: String) {
-            context.runOnUiThread {
+            context.runOnUi {
                 onTargetSelectedEvent(name, officialName)
             }
         }
 
         @JavascriptInterface
         fun onCredentialEntered() {
-            context.runOnUiThread {
+            context.runOnUi {
                 onCredentialEnteredEvent()
             }
         }
+    }
+
+    private fun Context.runOnUi(f: Context.() -> Unit) {
+        if (Looper.getMainLooper() === Looper.myLooper()) f() else Handler(Looper.getMainLooper()).post { f() }
     }
 }

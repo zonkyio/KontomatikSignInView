@@ -18,7 +18,7 @@ See https://developer.kontomatik.com/ for futher details about Kontomatik Bankin
 **Step 2.** Add the dependency
 
 	dependencies {
-	        implementation 'com.github.radimjanda754:KontomatikSignInView:0.2'
+	        implementation 'com.github.zonkyio:KontomatikSignInView:0.2'
 	}
 
 ##  Usage (Kotlin examples)
@@ -45,7 +45,7 @@ For params that take javascript code itself (for example setting styles in css) 
 Simply handle callbacks with lambda functions. All lambdas will be executed on UI Thread. Lambda for `setOnError` also provides `handledInView` boolean to determine if the error was caused by user and will be handled by widget itself.
 
     signInView.setOnSuccess { target, sessionId, sessionIdSignature, optionsJson ->
-                        // TODO
+            // TODO
     }
 
     signInView.setOnError { exception, optionsJson, handledInView ->
